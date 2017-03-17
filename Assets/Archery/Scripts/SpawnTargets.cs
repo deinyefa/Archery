@@ -6,14 +6,13 @@ public class SpawnTargets : MonoBehaviour {
 
     public GameObject[] spawnPoints;
     public GameObject target;
-    public float newTargetWaitTime;
 
     private GameObject currentPoint;
     private GameObject newTarget;
 
 	// Use this for initialization
 	void Start () {
-        StartCoroutine(SpawnTarget(newTargetWaitTime));
+        StartCoroutine(SpawnTarget(5.0f));
 	}
 
     IEnumerator SpawnTarget (float waitTime)
@@ -23,11 +22,13 @@ public class SpawnTargets : MonoBehaviour {
             // get random spawn point
             currentPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
 
-            DestroyObject(newTarget, newTargetWaitTime);
+            // remove old target
+            DestroyObject(newTarget, waitTime);
 
             // instantiate new target
             newTarget = Instantiate(target, currentPoint.transform.position, Quaternion.identity);
             newTarget.transform.parent = currentPoint.gameObject.transform;
+            newTarget.transform.rotation = currentPoint.transform.rotation;
             yield return new WaitForSeconds(waitTime);
         }
     }
