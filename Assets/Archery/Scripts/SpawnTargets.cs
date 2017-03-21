@@ -6,6 +6,7 @@ public class SpawnTargets : MonoBehaviour {
 
     public GameObject[] spawnPoints;
     public GameObject target;
+    public GameObject targetParticles;
 
     private GameObject currentPoint;
     private GameObject newTarget;
@@ -29,6 +30,10 @@ public class SpawnTargets : MonoBehaviour {
             newTarget = Instantiate(target, currentPoint.transform.position, Quaternion.identity);
             newTarget.transform.parent = currentPoint.gameObject.transform;
             newTarget.transform.rotation = currentPoint.transform.rotation;
+
+            // instantiate particle effect when spawned
+            Instantiate(targetParticles, currentPoint.transform.position, Quaternion.identity);
+
             yield return new WaitForSeconds(waitTime);
         }
     }
